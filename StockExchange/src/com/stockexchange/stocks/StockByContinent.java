@@ -1,10 +1,12 @@
 package com.stockexchange.stocks;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+@XmlRootElement(name="StockByContinent")
 public class StockByContinent extends Stocks{
     
     @XmlElement(name = "continentname")
@@ -22,7 +24,7 @@ public class StockByContinent extends Stocks{
     public String getContinent() {
         return continent;
     }
-
+    
     public void setContinent(String continent) {
         this.continent = continent;
     }
@@ -30,7 +32,7 @@ public class StockByContinent extends Stocks{
     public String getStockMarket() {
         return stockMarket;
     }
-
+    
     public void setStockMarket(String stockMarket) {
         this.stockMarket = stockMarket;
     }
@@ -38,19 +40,19 @@ public class StockByContinent extends Stocks{
     public String getWeekly() {
         return weekly;
     }
-
+    
     public void setWeekly(String weekly) {
         this.weekly = weekly;
     }
-
+    
     public String getMonthly() {
         return monthly;
     }
-
+    
     public void setMonthly(String monthly) {
         this.monthly = monthly;
     }
-
+    
     @Override
     public void updateValues(Element trElement, String continent) {
         
