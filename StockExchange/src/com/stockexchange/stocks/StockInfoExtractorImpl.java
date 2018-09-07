@@ -1,6 +1,7 @@
 package com.stockexchange.stocks;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 
 import javax.ws.rs.GET;
@@ -8,6 +9,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,26 +21,25 @@ import org.jsoup.select.Elements;
 
 @Path("/info")
 public class StockInfoExtractorImpl {
-    private static final String URL = "https://tradingeconomics.com/"; 
     
     @Path("/stockinfo/continent")
     @Produces(MediaType.APPLICATION_XML)
     @GET
-    public ArrayList<Stocks> getStockInfoByContinent() throws IOException
+    public Response getStockInfoByContinent() throws IOException, JAXBException
     {
-        StringBuffer buffURL = new StringBuffer(URL);
-        buffURL.append("stocks");
-        return this.getStockInfo(buffURL.toString(),StockFactory.BY_CONTINENT);
+        String params[]={"stocks"};
+        ArrayList<Stocks> result = this.getStockInfo(StockFactory.getURL(params),StockFactory.BY_CONTINENT); 
+        return Response.ok(200).entity(this.getFromatedData(result,StockFactory.BY_CONTINENT)).build();
     }
     
     @Path("/stockinfo/country/{country}")
     @Produces(MediaType.APPLICATION_XML)
     @GET
-    public ArrayList<Stocks> getStockInfoByCountry(@PathParam("country") String country) throws IOException
+    public Response getStockInfoByCountry(@PathParam("country") String country) throws IOException, JAXBException
     {
-        StringBuffer buffURL = new StringBuffer(URL);
-        buffURL.append(country).append("stock-market");
-        return this.getStockInfo(buffURL.toString(),StockFactory.BY_COUNTRY);
+        String param[]={country,"stock-market"};
+        ArrayList<Stocks> result =  this.getStockInfo(StockFactory.getURL(param),StockFactory.BY_COUNTRY);
+        return Response.ok(200).entity(this.getFromatedData(result,StockFactory.BY_COUNTRY)).build();
     }
     
     public ArrayList<Stocks> getStockInfo(String url, String stocksBy) throws IOException
@@ -63,6 +67,21 @@ public class StockInfoExtractorImpl {
                 break;
         }
         return stocks;
+    }
+    
+    private String getFromatedData(ArrayList<Stocks> results, String type) throws JAXBException {
+        JAXBContext context = StockFactory.getJAXBContext(type);
+        
+        Marshaller m = context.createMarshaller();
+        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        m.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+        
+        StringWriter stringWriter = new StringWriter();
+        for(Stocks result:results)
+        {
+            m.marshal(result, stringWriter);
+        }
+        return stringWriter.toString();   
     }
     
 }
