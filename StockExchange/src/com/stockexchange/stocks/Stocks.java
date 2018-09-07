@@ -4,15 +4,12 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
 
 import org.jsoup.nodes.Element;
-
-@XmlRootElement(name = "Stocks")
-@XmlSeeAlso({com.stockexchange.stocks.StockByContinent.class})
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class Stocks {
+@XmlRootElement(name="Stock")
 
+public abstract class Stocks {
     @XmlElement(name = "currentprice")
     private String price;
     
