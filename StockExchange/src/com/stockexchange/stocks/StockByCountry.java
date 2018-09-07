@@ -1,10 +1,12 @@
 package com.stockexchange.stocks;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+@XmlRootElement(name="StockByCountry")
 public class StockByCountry extends Stocks{
     
     @XmlElement(name = "companyname")
