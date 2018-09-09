@@ -25,9 +25,9 @@ public class StockInfoExtractorImpl {
     @Path("/stockinfo/continent")
     @Produces(MediaType.APPLICATION_XML)
     @GET
-    public Response getStockInfoByContinent() throws IOException, JAXBException
+    public Response getInfoByContinent(@QueryParam("markets") final String  market) throws IOException, JAXBException
     {
-        String params[]={"stocks"};
+        String params[]={market};
         ArrayList<Stocks> result = this.getStockInfo(StockFactory.getURL(params),StockFactory.BY_CONTINENT); 
         return Response.ok(200).entity(this.getFromatedData(result,StockFactory.BY_CONTINENT)).build();
     }
