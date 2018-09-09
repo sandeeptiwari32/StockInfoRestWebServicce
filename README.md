@@ -10,5 +10,5 @@ to run project you can use below 2 steps.
 <br />a. import project in eclipse and run using eclipse's internal server. 
 <br />b. put project into your web server(apache tomcat).
 <br />below is example Rest URL. 
-<br />a. http://localhost:8080/StockExchange/stocks/info/stockinfo/continent/ to get stock info by Continent.
+<br />a. http://localhost:8080/StockExchange/stocks/info/stockinfo/continent?markets=markets_type to get stock info by Continent.
 <br />b. http://localhost:8080/StockExchange/stocks/info/stockinfo/country/ to get stock info by Country.
